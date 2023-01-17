@@ -6,20 +6,25 @@ use yew::prelude::*;
 use card::Card;
 use add_team::AddTeam;
 
-use crate::app::card::Props;
 
 mod card;
 mod add_team;
 
-#[derive(PartialEq, Properties,Serialize, Deserialize)]
+#[derive(PartialEq, Properties, Serialize, Deserialize, Clone)]
 pub struct Team {
     name: String,
     price: f64,
 }
 
-#[derive(PartialEq, Properties,Serialize, Deserialize)]
+
+#[derive(PartialEq, Properties, Serialize, Deserialize, Clone)]
 pub struct Teams {
-    teams: Vec<Team>
+    teams: Vec<Team>,
+}
+
+#[derive(PartialEq, Properties,Serialize, Deserialize)]
+pub struct Props {
+    teams: Teams,
 }
 
 #[function_component(App)]
@@ -45,7 +50,7 @@ pub fn app() -> Html {
 
 
         // With Properties
-        <AddTeam ..teams/>
+        <AddTeam ..Props { teams: teams }/>
 
 
         <div class="grid grid-cols-5 gap-4">

@@ -4,16 +4,13 @@ use reqwest;
 use yew::prelude::*;
 use yew::{function_component, html, Html};
 use yew::platform::spawn_local;
-use crate::app::Teams;
-#[derive(Properties, PartialEq)]
-pub struct Props {
-    pub team: String,
-}
+use crate::app::{Props, Teams};
+
 #[function_component(HelloServer)]
-fn hello_server(Props {team}: &Props ) -> Html {
+fn hello_server(Props {teams}: &Props ) -> Html {
     // let json_string = to_string(team).unwrap();
     // let json_string=serde_json::to_string_pretty(&team).unwrap();
-    let json_string = json!(team).to_string();
+    let json_string = json!(teams).to_string();
 
     // Request `/api/hello` once
         use_effect(move || {
@@ -42,16 +39,17 @@ fn hello_server(Props {team}: &Props ) -> Html {
 fn my_async_fn() {}
 
 #[function_component(AddTeam)]
-pub fn add_team(props: &Teams) -> Html {
+pub fn add_team(Props {teams}: &Props ) -> Html {
     info!("hello from async");
-    let teams = props.clone();
+    // let teams = teams.clone();
     let json_string = to_string(&teams).unwrap();
 
 
     html! {
 
          <form>
-        <HelloServer team={json_string}/>
+       <HelloServer teams={teams.clone()}/>
+
     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{"Add Team"}</label>
     <div class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
