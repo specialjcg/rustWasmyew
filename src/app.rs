@@ -31,7 +31,6 @@ pub fn app() -> Html {
 
 
     let json_string = to_string(&teams).unwrap();
-    let name: Props = Props { team: "test".to_string() };
     let products: Vec<Html> = teams.teams.iter().map(|product: &Team| {
         html! {
 

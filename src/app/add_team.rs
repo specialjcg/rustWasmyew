@@ -1,13 +1,19 @@
 use log::info;
-use serde_json::to_string;
+use serde_json::{json, to_string};
 use reqwest;
 use yew::prelude::*;
 use yew::{function_component, html, Html};
 use yew::platform::spawn_local;
 use crate::app::Teams;
-
+#[derive(Properties, PartialEq)]
+pub struct Props {
+    pub team: String,
+}
 #[function_component(HelloServer)]
-fn hello_server() -> Html {
+fn hello_server(Props {team}: &Props ) -> Html {
+    // let json_string = to_string(team).unwrap();
+    // let json_string=serde_json::to_string_pretty(&team).unwrap();
+    let json_string = json!(team).to_string();
 
     // Request `/api/hello` once
         use_effect(move || {
@@ -15,6 +21,8 @@ fn hello_server() -> Html {
                     let client = reqwest::Client::new();
                     let response = client
                         .post("http://0.0.0.0:8081/saveteam")
+                        // .body(json_string)
+                        .body(json_string)
                         // confirm the request using send()
                         .send()
                         .await
@@ -43,7 +51,7 @@ pub fn add_team(props: &Teams) -> Html {
     html! {
 
          <form>
-        <HelloServer/>
+        <HelloServer team={json_string}/>
     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{"Add Team"}</label>
     <div class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
